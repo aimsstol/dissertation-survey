@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dialect Perception Survey</title>
+    <style>
+        /* Modal styles */
+        .modal {
+            display: flex;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            max-width: 500px;
+            width: 80%;
+            text-align: center;
+            font-family: "Georgia", serif;
+            color: #333;
+        }
+        .modal h2 {
+            margin-top: 0;
+            font-size: 1.8em;
+            color: #2c3e50;
+        }
+        .modal p, .modal ul {
+            font-size: 1.2em;
+            line-height: 1.6;
+        }
+        .modal button {
+            padding: 10px 20px;
+            margin-top: 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1em;
+            cursor: pointer;
+        }
+        .modal button:hover {
+            background-color: #45a049;
+        }
+        /* Survey content */
+        #surveyPage {
+            display: none;
+            margin: 20px;
+            font-family: "Arial", sans-serif;
+            color: #2c3e50;
+            line-height: 1.8;
+        }
+        h2, h3 {
+            color: #34495e;
+            font-size: 1.6em;
+        }
+        form label {
+            display: block;
+            margin: 15px 0 5px;
+            font-weight: bold;
+            font-size: 1em;
+        }
+        form input[type="text"], form input[type="number"], form select {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1em;
+        }
+        form input[type="checkbox"] {
+            margin-right: 8px;
+        }
+        .audio-question label {
+            font-size: 1em;
+            font-weight: normal;
+        }
+        .likert-scale {
+            display: flex;
+            justify-content: space-around;
+        }
+        .likert-scale label {
+            flex: 1;
+            text-align: center;
+            font-size: 0.9em;
+        }
+        button {
+            padding: 10px 20px;
+            margin-top: 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1em;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Modal -->
+<div id="consentModal" class="modal">
+    <div class="modal-content">
+        <h2>Welcome to the Scottish Dialect Perception Study</h2>
+        <p>Please only continue with the survey if you meet the following criteria:</p>
+        <ul style="list-style: none; padding: 0;">
+            <li>Born and raised in the Central Belt of Scotland or the South West of England.</li>
+            <li>No more than 5 years living outside these areas (state this in the survey if applicable).</li>
+            <li>Aged between 18 and 29 years.</li>
+        </ul>
+        <p>If you meet these criteria, click "Continue" to start the survey.</p>
+        <button onclick="closeModal()">Continue</button>
+    </div>
+</div>
+
+<!-- Survey Page -->
+<div id="surveyPage">
+    <h2>Scottish Dialect Perception Survey</h2>
+
+    <form id="perceptionSurvey" action="https://formspree.io/f/myzyyjgv" method="POST">
+        <!-- Background Questions -->
+        <label for="age">Age:</label>
+        <input type="number" id="age" name="age" required>
+
+        <label for="gender">Gender:</label>
+        <select id="gender" name="gender" required>
+            <option value="" disabled selected>Select your gender</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+            <option value="non-binary">Non-binary</option>
+            <option value="prefer not to say">Prefer not to say</option>
+        </select>
+
+        <label for="birthplace">Place where you were born and raised:</label>
+        <input type="text" id="birthplace" name="birthplace" required>
+
+        <label for="lived_elsewhere">Have you lived anywhere else?</label>
+        <select id="lived_elsewhere" name="lived_elsewhere" required>
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+        </select>
+
+        <label for="other_places">If yes, where and for how long?</label>
+        <input type="text" id="other_places" name="other_places">
+
+        <label for="frequencyOfExposure">How often do you hear Scottish dialects in daily life?</label>
+        <select id="frequencyOfExposure" name="frequencyOfExposure" required>
+            <option value="1">Rarely</option>
+            <option value="2">Sometimes</option>
+            <option value="3">Very Often</option>
+        </select>
+
+        <label for="contextualFamiliarity">In which contexts have you encountered Scottish dialects? (Select all that apply)</label><br>
+        <input type="checkbox" name="contextualFamiliarity" value="Media (TV, movies, radio)"> Media (TV, movies, radio)<br>
+        <input type="checkbox" name="contextualFamiliarity" value="Travel in Scotland"> Travel in Scotland<br>
+        <input type="checkbox" name="contextualFamiliarity" value="Family or friends"> Family or friends<br>
+        <input type="checkbox" name="contextualFamiliarity" value="Work"> Work<br>
+        <input type="checkbox" name="contextualFamiliarity" value="Other"> Other<br>
+
+        <label for="personalInteractions">How frequently do you speak with people who have Scottish dialects?</label>
+        <select id="personalInteractions" name="personalInteractions" required>
+            <option value="1">Never</option>
+            <option value="3">Sometimes</option>
+            <option value="5">Daily</option>
+        </select>
+
+        <!-- Audio Ratings -->
+        <h3>Please listen to the audio clips and rate them: (1 is lowest rating, 4 is highest rating)</h3>
+        <div class="audio-question">
+            <label>Audio Sample 1:</label><br>
+            <audio controls>
+                <source src="kirkaldy_clippedaudio copy.mp3" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
+            <div>
+                <label>Friendliness:</label>
+                <div class="likert-scale">
+                    <label>1 (not at all)<input type="radio" name="audio1_friendliness" value="1" required></label>
+                    <label>2 (somewhat not)<input type="radio" name="audio1_friendliness" value="2"></label>
+                    <label>3 (somewhat)<input type="radio" name="audio1_friendliness" value="3"></label>
+                    <label>4 (very)<input type="radio" name="audio1_friendliness" value="4"></label>
+                </div>
+                <label>Comprehensibility:</label>
+                <div class="likert-scale">
+                    <label>1<input type="radio" name="audio1_comprehensibility" value="1" required></label>
+                    <label>2<input type="radio" name="audio1_comprehensibility" value="2"></label>
+                    <label>3<input type="radio" name="audio1_comprehensibility" value="3"></label>
+                    <label>4<input type="radio" name="audio1_comprehensibility" value="4"></label>
+                </div>
+                <label>Intelligence:</label>
+                <div class="likert-scale">
+                    <label>1<input type="radio" name="audio1_intelligence" value="1" required></label>
+                    <label>2<input type="radio" name="audio1_intelligence" value="2"></label>
+                    <label>3<input type="radio" name="audio1_intelligence" value="3"></label>
+                    <label>4<input type="radio" name="audio1_intelligence" value="4"></label>
+                </div>
+                <label>Scottishness:</label>
+                <div class="likert-scale">
+                    <label>1<input type="radio" name="audio1_scottishness" value="1" required></label>
+                    <label>2<input type="radio" name="audio1_scottishness" value="2"></label>
+                    <label>3<input type="radio" name="audio1_scottishness" value="3"></label>
+                    <label>4<input type="radio" name="audio1_scottishness" value="4"></label>
+                </div>
+                <label>Can you identify the dialect's region? (if not just have a guess!):</label>
+                <select name="audio2_dialect" required>
+                    <option value="">--Select an area--</option>
+                    <option value="Aberdeenshire">Aberdeenshire</option>
+                    <option value="Stirling">Stirling</option>
+                    <option value="Edinburgh">Edinburgh</option>
+                    <option value="Fife">Fife</option>
+                    <option value="Inverness">Inverness</option>
+                    <option value="Dundee">Dundee</option>
+                    <option value="Glasgow">Glasgow</option>
+                    <option value="Scottish Isles">Scottish Isles</option>
+                    <option value="Perth">Perth</option>
+                    <option value="Scottish Borders">Scottish Borders</option>
+                </select>
+
+        <div class="audio-question">
+            <label>Audio Sample 2:</label><br>
+            <audio controls>
+                <source src="glasgow_clippedaudio copy.mp3" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
+            <div>
+                <label>Friendliness:</label>
+                <div class="likert-scale">
+                    <label>1<input type="radio" name="audio2_friendliness" value="1" required></label>
+                    <label>2<input type="radio" name="audio2_friendliness" value="2"></label>
+                    <label>3<input type="radio" name="audio2_friendliness" value="3"></label>
+                    <label>4<input type="radio" name="audio2_friendliness" value="4"></label>
+                </div>
+                <label>Comprehensibility:</label>
+                <div class="likert-scale">
+                    <label>1<input type="radio" name="audio2_comprehensibility" value="1" required></label>
+                    <label>2<input type="radio" name="audio2_comprehensibility" value="2"></label>
+                    <label>3<input type="radio" name="audio2_comprehensibility" value="3"></label>
+                    <label>4<input type="radio" name="audio2_comprehensibility" value="4"></label>
+                </div>
+                <label>Intelligence:</label>
+                <div class="likert-scale">
+                    <label>1<input type="radio" name="audio2_intelligence" value="1" required></label>
+                    <label>2<input type="radio" name="audio2_intelligence" value="2"></label>
+                    <label>3<input type="radio" name="audio2_intelligence" value="3"></label>
+                    <label>4<input type="radio" name="audio2_intelligence" value="4"></label>
+                </div>
+                <label>Scottishness:</label>
+                <div class="likert-scale">
+                    <label>1<input type="radio" name="audio2_scottishness" value="1" required></label>
+                    <label>2<input type="radio" name="audio2_scottishness" value="2"></label>
+                    <label>3<input type="radio" name="audio2_scottishness" value="3"></label>
+                    <label>4<input type="radio" name="audio2_scottishness" value="4"></label>
+                </div>
+                <label>Can you identify the dialect's region? (if not just have a guess!):</label>
+                <select name="audio2_dialect" required>
+                    <option value="">--Select an area--</option>
+                    <option value="Aberdeenshire">Aberdeenshire</option>
+                    <option value="Stirling">Stirling</option>
+                    <option value="Edinburgh">Edinburgh</option>
+                    <option value="Fife">Fife</option>
+                    <option value="Inverness">Inverness</option>
+                    <option value="Dundee">Dundee</option>
+                    <option value="Glasgow">Glasgow</option>
+                    <option value="Scottish Isles">Scottish Isles</option>
+                    <option value="Perth">Perth</option>
+                    <option value="Scottish Borders">Scottish Borders</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="audio-question">
+            <label>Audio Sample 3:</label><br>
+            <audio controls>
+                <source src="skye_clippedaudio copy.mp3" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
+            <div>
+                <label>Friendliness:</label>
+                <div class="likert-scale">
+                    <label>1<input type="radio" name="audio3_friendliness" value="1" required></label>
+                    <label>2<input type="radio" name="audio3_friendliness" value="2"></label>
+                    <label>3<input type="radio" name="audio3_friendliness" value="3"></label>
+                    <label>4<input type="radio" name="audio3_friendliness" value="4"></label>
+                </div>
+                <label>Comprehensibility:</label>
+                <div class="likert-scale">
+                    <label>1<input type="radio" name="audio3_comprehensibility" value="1" required></label>
+                    <label>2<input type="radio" name="audio3_comprehensibility" value="2"></label>
+                    <label>3<input type="radio" name="audio3_comprehensibility" value="3"></label>
+                    <label>4<input type="radio" name="audio3_comprehensibility" value="4"></label>
+                </div>
+                <label>Intelligence:</label>
+                <div class="likert-scale">
+                    <label>1<input type="radio" name="audio3_intelligence" value="1" required></label>
+                    <label>2<input type="radio" name="audio3_intelligence" value="2"></label>
+                    <label>3<input type="radio" name="audio3_intelligence" value="3"></label>
+                    <label>4<input type="radio" name="audio3_intelligence" value="4"></label>
+                </div>
+                <label>Scottishness:</label>
+                <div class="likert-scale">
+                    <label>1<input type="radio" name="audio3_scottishness" value="1" required></label>
+                    <label>2<input type="radio" name="audio3_scottishness" value="2"></label>
+                    <label>3<input type="radio" name="audio3_scottishness" value="3"></label>
+                    <label>4<input type="radio" name="audio3_scottishness" value="4"></label>
+                </div>
+                <label>Can you identify the dialect's region? (if not just have a guess!):</label>
+                <select name="audio3_dialect" required>
+                    <option value="">--Select an area--</option>
+                    <option value="Aberdeenshire">Aberdeenshire</option>
+                    <option value="Stirling">Stirling</option>
+                    <option value="Edinburgh">Edinburgh</option>
+                    <option value="Fife">Fife</option>
+                    <option value="Inverness">Inverness</option>
+                    <option value="Dundee">Dundee</option>
+                    <option value="Glasgow">Glasgow</option>
+                    <option value="Scottish Isles">Scottish Isles</option>
+                    <option value="Perth">Perth</option>
+                    <option value="Scottish Borders">Scottish Borders</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="audio-question">
+            <label>Audio Sample 4:</label><br>
+            <audio controls>
+                <source src="Borders recordingclip.mp3" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
+            <div>
+                <label>Friendliness:</label>
+                <div class="likert-scale">
+                    <label>1<input type="radio" name="audio4_friendliness" value="1" required></label>
+                    <label>2<input type="radio" name="audio4_friendliness" value="2"></label>
+                    <label>3<input type="radio" name="audio4_friendliness" value="3"></label>
+                    <label>4<input type="radio" name="audio4_friendliness" value="4"></label>
+                </div>
+                <label>Comprehensibility:</label>
+                <div class="likert-scale">
+                    <label>1<input type="radio" name="audio4_comprehensibility" value="1" required></label>
+                    <label>2<input type="radio" name="audio4_comprehensibility" value="2"></label>
+                    <label>3<input type="radio" name="audio4_comprehensibility" value="3"></label>
+                    <label>4<input type="radio" name="audio4_comprehensibility" value="4"></label>
+                </div>
+                <label>Intelligence:</label>
+                <div class="likert-scale">
+                    <label>1<input type="radio" name="audio4_intelligence" value="1" required></label>
+                    <label>2<input type="radio" name="audio4_intelligence" value="2"></label>
+                    <label>3<input type="radio" name="audio4_intelligence" value="3"></label>
+                    <label>4<input type="radio" name="audio4_intelligence" value="4"></label>
+                </div>
+                <label>Scottishness:</label>
+                <div class="likert-scale">
+                    <label>1<input type="radio" name="audio4_scottishness" value="1" required></label>
+                    <label>2<input type="radio" name="audio4_scottishness" value="2"></label>
+                    <label>3<input type="radio" name="audio4_scottishness" value="3"></label>
+                    <label>4<input type="radio" name="audio4_scottishness" value="4"></label>
+                </div>
+                <label>Can you identify the dialect's region? (if not just have a guess!):</label>
+                <select name="audio4_dialect" required>
+                    <option value="">--Select an area--</option>
+                    <option value="Aberdeenshire">Aberdeenshire</option>
+                    <option value="Stirling">Stirling</option>
+                    <option value="Edinburgh">Edinburgh</option>
+                    <option value="Fife">Fife</option>
+                    <option value="Inverness">Inverness</option>
+                    <option value="Dundee">Dundee</option>
+                    <option value="Glasgow">Glasgow</option>
+                    <option value="Scottish Isles">Scottish Isles</option>
+                    <option value="Perth">Perth</option>
+                    <option value="Scottish Borders">Scottish Borders</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="audio-question">
+            <label>Audio Sample 5:</label><br>
+            <audio controls>
+                <source src="aberdeen_clippedaudio copy.mp3" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
+            <div>
+                <label>Friendliness:</label>
+                <div class="likert-scale">
+                    <label>1<input type="radio" name="audio5_friendliness" value="1" required></label>
+                    <label>2<input type="radio" name="audio5_friendliness" value="2"></label>
+                    <label>3<input type="radio" name="audio5_friendliness" value="3"></label>
+                    <label>4<input type="radio" name="audio5_friendliness" value="4"></label>
+                </div>
+                <label>Comprehensibility:</label>
+                <div class="likert-scale">
+                    <label>1<input type="radio" name="audio5_comprehensibility" value="1" required></label>
+                    <label>2<input type="radio" name="audio5_comprehensibility" value="2"></label>
+                    <label>3<input type="radio" name="audio5_comprehensibility" value="3"></label>
+                    <label>4<input type="radio" name="audio5_comprehensibility" value="4"></label>
+                </div>
+                <label>Intelligence:</label>
+                <div class="likert-scale">
+                    <label>1<input type="radio" name="audio5_intelligence" value="1" required></label>
+                    <label>2<input type="radio" name="audio5_intelligence" value="2"></label>
+                    <label>3<input type="radio" name="audio5_intelligence" value="3"></label>
+                    <label>4<input type="radio" name="audio5_intelligence" value="4"></label>
+                </div>
+                <label>Scottishness:</label>
+                <div class="likert-scale">
+                    <label>1<input type="radio" name="audio5_scottishness" value="1" required></label>
+                    <label>2<input type="radio" name="audio5_scottishness" value="2"></label>
+                    <label>3<input type="radio" name="audio5_scottishness" value="3"></label>
+                    <label>4<input type="radio" name="audio5_scottishness" value="4"></label>
+                </div>
+                <label>Can you identify the dialect's region? (if not just have a guess!):</label>
+                <select name="audio5_dialect" required>
+                    <option value="">--Select an area--</option>
+                    <option value="Aberdeenshire">Aberdeenshire</option>
+                    <option value="Stirling">Stirling</option>
+                    <option value="Edinburgh">Edinburgh</option>
+                    <option value="Fife">Fife</option>
+                    <option value="Inverness">Inverness</option>
+                    <option value="Dundee">Dundee</option>
+                    <option value="Glasgow">Glasgow</option>
+                    <option value="Scottish Isles">Scottish Isles</option>
+                    <option value="Perth">Perth</option>
+                    <option value="Scottish Borders">Scottish Borders</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit">Submit Survey</button>
+    </form>
+</div>
+
+<script>
+    // Function to close the modal and show the survey page
+    function closeModal() {
+        document.getElementById('consentModal').style.display = 'none';
+        document.getElementById('surveyPage').style.display = 'block';
+    }
+</script>
+
+</body>
+</html>
+
